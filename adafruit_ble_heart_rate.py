@@ -42,6 +42,7 @@ Implementation Notes
 """
 import struct
 import _bleio
+from collections import namedtuple
 
 from adafruit_ble.services import Service
 from adafruit_ble.uuid import StandardUUID
@@ -50,6 +51,37 @@ from adafruit_ble.characteristics.int import Uint8Characteristic
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Heart_Rate.git"
+
+HeartRateMeasurementValue = namedtuple(
+    "HeartRateMeasurementValue",
+    ("heart_rate", "contact", "energy_expended", "rr_intervals"))
+"""Namedtuple for the parts of a measurement value.
+
+.. py:attribute:: HeartRateMeasurementValue.heart_rate
+
+        Heart rate (int), in beats per minute.
+
+.. py:attribute:: HeartRateMeasurementValue.contact
+
+        ``True`` if device is contacting the body, ``False`` if not,
+        ``None`` if device does not support contact detection.
+
+.. py:attribute:: HeartRateMeasurementValue.energy_expended
+
+        Energy expended (int), in kilo joules, or ``None`` if no value.
+
+.. py:attribute:: HeartRateMeasurementValue.rr_intervals
+
+        Sequence of RR intervals, measuring the time between
+        beats. Oldest first, in ints that are units of 1024ths of a second.
+        This sequence will be empty if the device does not report the intervals.
+        *Caution:* inexpensive heart rate monitors may not measure this
+        accurately. Do not use for diagnosis.
+
+For example::
+
+    bpm = svc.measurement_value.heart_rate
+"""
 
 class _HeartRateMeasurement(ComplexCharacteristic):
     """Notify-only characteristic of streaming heart rate data."""
@@ -109,15 +141,10 @@ class HeartRateService(Service):
 
     @property
     def measurement_values(self):
-        """All the measurement values, as a tuple:
-        (heart_rate, contact, energy_expended, rr_intervals)
-        * heart_rate: int (beats per minute)
-        * contact: True if contacting, False if not, None if unknown
-        * energy_expended: int (Kilo joules), or None if no value
-        * rr_intervals: list of RR-intervals, if any,
-        oldest first, in ints that are1024ths of a second,
+        """All the measurement values, returned as a HeartRateMeasurementValue
+        namedtuple.
 
-        Return None if no packet has been read yet.
+        Return ``None`` if no packet has been read yet.
         """
         buf = self._measurement_buf
         packet_length = self.heart_rate_measurement.readinto(buf)
@@ -152,7 +179,7 @@ class HeartRateService(Service):
                 rr_val = struct.unpack_from("<H", buf, offset)[0]
                 rr_values.append(rr_val)
 
-        return (bpm, contact, energy_expended, rr_values)
+        return HeartRateMeasurementValue(bpm, contact, energy_expended, rr_values)
 
     @property
     def location(self):
@@ -163,6 +190,10 @@ class HeartRateService(Service):
         For instance, some armbands are meant to be worn just below the inner elbow,
         but that is not a prescribed location. So the sensor will report something
         else, such as "Wrist".
+
+        Possible values are:
+        "Other", "Chest", "Wrist", "Finger", "Hand", "Ear Lobe", "Foot", and
+        "InvalidLocation" (if value returned does not match the specification).
         """
 
         try:
