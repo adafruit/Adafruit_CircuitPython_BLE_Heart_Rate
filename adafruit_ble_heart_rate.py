@@ -52,25 +52,25 @@ from adafruit_ble.characteristics.int import Uint8Characteristic
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Heart_Rate.git"
 
-HeartRateMeasurementValue = namedtuple(
-    "HeartRateMeasurementValue",
+HeartRateMeasurementValues = namedtuple(
+    "HeartRateMeasurementValues",
     ("heart_rate", "contact", "energy_expended", "rr_intervals"))
-"""Namedtuple for the parts of a measurement value.
+"""Namedtuple for measurement values.
 
-.. py:attribute:: HeartRateMeasurementValue.heart_rate
+.. py:attribute:: HeartRateMeasurementValues.heart_rate
 
         Heart rate (int), in beats per minute.
 
-.. py:attribute:: HeartRateMeasurementValue.contact
+.. py:attribute:: HeartRateMeasurementValues.contact
 
         ``True`` if device is contacting the body, ``False`` if not,
         ``None`` if device does not support contact detection.
 
-.. py:attribute:: HeartRateMeasurementValue.energy_expended
+.. py:attribute:: HeartRateMeasurementValues.energy_expended
 
         Energy expended (int), in kilo joules, or ``None`` if no value.
 
-.. py:attribute:: HeartRateMeasurementValue.rr_intervals
+.. py:attribute:: HeartRateMeasurementValues.rr_intervals
 
         Sequence of RR intervals, measuring the time between
         beats. Oldest first, in ints that are units of 1024ths of a second.
@@ -80,7 +80,7 @@ HeartRateMeasurementValue = namedtuple(
 
 For example::
 
-    bpm = svc.measurement_value.heart_rate
+    bpm = svc.measurement_values.heart_rate
 """
 
 class _HeartRateMeasurement(ComplexCharacteristic):
@@ -141,7 +141,7 @@ class HeartRateService(Service):
 
     @property
     def measurement_values(self):
-        """All the measurement values, returned as a HeartRateMeasurementValue
+        """All the measurement values, returned as a HeartRateMeasurementValues
         namedtuple.
 
         Return ``None`` if no packet has been read yet.
@@ -179,7 +179,7 @@ class HeartRateService(Service):
                 rr_val = struct.unpack_from("<H", buf, offset)[0]
                 rr_values.append(rr_val)
 
-        return HeartRateMeasurementValue(bpm, contact, energy_expended, rr_values)
+        return HeartRateMeasurementValues(bpm, contact, energy_expended, rr_values)
 
     @property
     def location(self):
