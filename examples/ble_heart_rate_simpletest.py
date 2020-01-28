@@ -5,13 +5,13 @@ Heart Rate service.
 
 import time
 
-from adafruit_ble import BLERadio
+import adafruit_ble
 from adafruit_ble.advertising.standard import ProvideServicesAdvertisement
 from adafruit_ble.services.standard.device_info import DeviceInfoService
 from adafruit_ble_heart_rate import HeartRateService
 
 # PyLint can't find BLERadio for some reason so special case it here.
-ble = BLERadio() # pylint: disable=no-name-in-module
+ble = adafruit_ble.BLERadio()    # pylint: disable=no-member
 
 hr_connection = None
 # Start with a fresh connection.
