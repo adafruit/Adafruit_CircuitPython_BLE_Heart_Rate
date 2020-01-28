@@ -41,9 +41,9 @@ Implementation Notes
 * Adafruit's BLE library: https://github.com/adafruit/Adafruit_CircuitPython_BLE
 """
 import struct
-import _bleio
 from collections import namedtuple
 
+import _bleio
 from adafruit_ble.services import Service
 from adafruit_ble.uuid import StandardUUID
 from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
