@@ -110,12 +110,13 @@ class HeartRateService(Service):
     @property
     def measurement_values(self):
         """All the measurement values, as a tuple:
-        (heart_rate: int (beats per minute),
-         contact: True if contacting, False if not, None if unknown,
-         energy_expended: int (Kilo joules), or None if no value,
-         rr_intervals: list of RR-intervals, if any,
-                       oldest first, in ints that are1024ths of a second,
-        )
+        (heart_rate, contact, energy_expended, rr_intervals)
+        * heart_rate: int (beats per minute)
+        * contact: True if contacting, False if not, None if unknown
+        * energy_expended: int (Kilo joules), or None if no value
+        * rr_intervals: list of RR-intervals, if any,
+        oldest first, in ints that are1024ths of a second,
+
         Return None if no packet has been read yet.
         """
         buf = self._measurement_buf

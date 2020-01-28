@@ -26,9 +26,7 @@ Table of Contents
 .. toctree::
     :caption: Related Products
 
-    Tested on a Scosche Rhythm+ Armband Heart Rate Monitor, but should be usable
-    with other standard BLE Heart Rate Monitors.
-    <https://www.amazon.com/gp/product/B00JQHTJS2>
+    Scosche Rhythm+ Armband Heart Rate Monitor (should be usable with others) <https://www.amazon.com/gp/product/B00JQHTJS2>
 
 .. toctree::
     :caption: Other Links

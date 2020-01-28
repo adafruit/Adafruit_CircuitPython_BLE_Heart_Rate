@@ -53,11 +53,6 @@ To install in a virtual environment in your current project:
     source .env/bin/activate
     pip3 install adafruit-circuitpython-ble-heart-rate
 
-Usage Example
-=============
-
-.. todo:: Add a quick, simple example. It and other examples should live in the examples folder and be included in docs/examples.rst.
-
 Contributing
 ============
 
