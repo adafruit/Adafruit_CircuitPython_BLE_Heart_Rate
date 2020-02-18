@@ -134,10 +134,7 @@ class HeartRateService(Service):
 
     def __init__(self, service=None):
         super().__init__(service=service)
-#### TODO Use commented line instead once .packet_size is fixed in CircuitPython beta.
-####    self._measurement_buf = bytearray(self.heart_rate_measurement.packet_size)
-#### TEMPORARY
-        self._measurement_buf = bytearray(20)
+        self._measurement_buf = bytearray(self.heart_rate_measurement.packet_size)
 
     @property
     def measurement_values(self):
