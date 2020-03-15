@@ -54,7 +54,8 @@ __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_BLE_Heart_Rate.gi
 
 HeartRateMeasurementValues = namedtuple(
     "HeartRateMeasurementValues",
-    ("heart_rate", "contact", "energy_expended", "rr_intervals"))
+    ("heart_rate", "contact", "energy_expended", "rr_intervals"),
+)
 """Namedtuple for measurement values.
 
 .. py:attribute:: HeartRateMeasurementValues.heart_rate
@@ -83,8 +84,10 @@ For example::
     bpm = svc.measurement_values.heart_rate
 """
 
+
 class _HeartRateMeasurement(ComplexCharacteristic):
     """Notify-only characteristic of streaming heart rate data."""
+
     uuid = StandardUUID(0x2A37)
 
     def __init__(self):
@@ -123,18 +126,22 @@ class HeartRateService(Service):
     # Mandatory for Heart Rate Service
     heart_rate_measurement = _HeartRateMeasurement()
     # Optional for Heart Rate Service.
-    body_sensor_location = Uint8Characteristic(uuid=StandardUUID(0x2A38),
-                                               properties=Characteristic.READ)
+    body_sensor_location = Uint8Characteristic(
+        uuid=StandardUUID(0x2A38), properties=Characteristic.READ
+    )
 
     # Mandatory only if Energy Expended features is supported.
-    heart_rate_control_point = Uint8Characteristic(uuid=StandardUUID(0x2A39),
-                                                   properties=Characteristic.WRITE)
+    heart_rate_control_point = Uint8Characteristic(
+        uuid=StandardUUID(0x2A39), properties=Characteristic.WRITE
+    )
 
     _BODY_LOCATIONS = ("Other", "Chest", "Wrist", "Finger", "Hand", "Ear Lobe", "Foot")
 
     def __init__(self, service=None):
         super().__init__(service=service)
-        self._measurement_buf = bytearray(self.heart_rate_measurement.packet_size)
+        self._measurement_buf = bytearray(
+            self.heart_rate_measurement.packet_size  # pylint: disable=no-member
+        )
 
     @property
     def measurement_values(self):
@@ -144,7 +151,9 @@ class HeartRateService(Service):
         Return ``None`` if no packet has been read yet.
         """
         buf = self._measurement_buf
-        packet_length = self.heart_rate_measurement.readinto(buf)
+        packet_length = self.heart_rate_measurement.readinto(  # pylint: disable=no-member
+            buf
+        )
         if packet_length == 0:
             return None
         flags = buf[0]
