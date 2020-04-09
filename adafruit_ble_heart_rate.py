@@ -58,20 +58,20 @@ HeartRateMeasurementValues = namedtuple(
 )
 """Namedtuple for measurement values.
 
-.. py:attribute:: HeartRateMeasurementValues.heart_rate
+.. :attribute:: heart_rate:
 
         Heart rate (int), in beats per minute.
 
-.. py:attribute:: HeartRateMeasurementValues.contact
+.. :attribute:: contact:
 
         ``True`` if device is contacting the body, ``False`` if not,
         ``None`` if device does not support contact detection.
 
-.. py:attribute:: HeartRateMeasurementValues.energy_expended
+.. :attribute:: energy_expended:
 
         Energy expended (int), in kilo joules, or ``None`` if no value.
 
-.. py:attribute:: HeartRateMeasurementValues.rr_intervals
+.. :attribute:: rr_intervals:
 
         Sequence of RR intervals, measuring the time between
         beats. Oldest first, in ints that are units of 1024ths of a second.
