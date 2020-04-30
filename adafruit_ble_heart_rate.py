@@ -58,20 +58,20 @@ HeartRateMeasurementValues = namedtuple(
 )
 """Namedtuple for measurement values.
 
-.. :attribute:: heart_rate:
+* `HeartRateMeasurementValues.heart_rate`
 
         Heart rate (int), in beats per minute.
 
-.. :attribute:: contact:
+* `HeartRateMeasurementValues.contact`
 
         ``True`` if device is contacting the body, ``False`` if not,
         ``None`` if device does not support contact detection.
 
-.. :attribute:: energy_expended:
+* `HeartRateMeasurementValues.energy_expended`
 
         Energy expended (int), in kilo joules, or ``None`` if no value.
 
-.. :attribute:: rr_intervals:
+* `HeartRateMeasurementValues.rr_intervals`
 
         Sequence of RR intervals, measuring the time between
         beats. Oldest first, in ints that are units of 1024ths of a second.
