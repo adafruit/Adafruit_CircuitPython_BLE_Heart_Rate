@@ -139,9 +139,8 @@ class HeartRateService(Service):
 
     def __init__(self, service=None):
         super().__init__(service=service)
-        self._measurement_buf = bytearray(
-            self.heart_rate_measurement.packet_size  # pylint: disable=no-member
-        )
+        # Defer creating buffer until needed.
+        self._measurement_buf = None
 
     @property
     def measurement_values(self):
@@ -150,6 +149,10 @@ class HeartRateService(Service):
 
         Return ``None`` if no packet has been read yet.
         """
+        if self._measurement_buf is None:
+            self._measurement_buf = bytearray(
+                self.heart_rate_measurement.packet_size  # pylint: disable=no-member
+            )
         buf = self._measurement_buf
         packet_length = self.heart_rate_measurement.readinto(  # pylint: disable=no-member
             buf
