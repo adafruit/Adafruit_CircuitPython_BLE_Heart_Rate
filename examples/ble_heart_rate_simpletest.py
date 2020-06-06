@@ -14,12 +14,6 @@ from adafruit_ble_heart_rate import HeartRateService
 ble = adafruit_ble.BLERadio()  # pylint: disable=no-member
 
 hr_connection = None
-# Start with a fresh connection.
-if ble.connected:
-    for connection in ble.connections:
-        if HeartRateService in connection:
-            connection.disconnect()
-        break
 
 while True:
     print("Scanning...")
