@@ -1,24 +1,7 @@
-# The MIT License (MIT)
+# SPDX-FileCopyrightText: 2020 Dan Halbert for Adafruit Industries
 #
-# Copyright (c) 2020 Dan Halbert for Adafruit Industries LLC
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+# SPDX-License-Identifier: MIT
+
 """
 `adafruit_ble_heart_rate`
 ================================================================================
@@ -150,13 +133,9 @@ class HeartRateService(Service):
         Return ``None`` if no packet has been read yet.
         """
         if self._measurement_buf is None:
-            self._measurement_buf = bytearray(
-                self.heart_rate_measurement.packet_size  # pylint: disable=no-member
-            )
+            self._measurement_buf = bytearray(self.heart_rate_measurement.packet_size)
         buf = self._measurement_buf
-        packet_length = self.heart_rate_measurement.readinto(  # pylint: disable=no-member
-            buf
-        )
+        packet_length = self.heart_rate_measurement.readinto(buf)
         if packet_length == 0:
             return None
         flags = buf[0]
