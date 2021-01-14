@@ -132,10 +132,12 @@ class HeartRateService(Service):
 
         Return ``None`` if no packet has been read yet.
         """
+        # pylint: disable=no-member
         if self._measurement_buf is None:
             self._measurement_buf = bytearray(self.heart_rate_measurement.packet_size)
         buf = self._measurement_buf
         packet_length = self.heart_rate_measurement.readinto(buf)
+        # pylint: enable=no-member
         if packet_length == 0:
             return None
         flags = buf[0]
