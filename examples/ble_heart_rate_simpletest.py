@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+# SPDX-License-Identifier: MIT
+
 """
 Read heart rate data from a heart rate peripheral using the standard BLE
 Heart Rate service.
