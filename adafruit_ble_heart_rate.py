@@ -134,7 +134,9 @@ class HeartRateService(Service):
         """
         # pylint: disable=no-member
         if self._measurement_buf is None:
-            self._measurement_buf = bytearray(self.heart_rate_measurement.packet_size)
+            self._measurement_buf = bytearray(
+                self.heart_rate_measurement.incoming_packet_length
+            )
         buf = self._measurement_buf
         packet_length = self.heart_rate_measurement.readinto(buf)
         # pylint: enable=no-member
