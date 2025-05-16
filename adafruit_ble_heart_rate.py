@@ -23,14 +23,15 @@ Implementation Notes
   https://github.com/adafruit/circuitpython/releases
 * Adafruit's BLE library: https://github.com/adafruit/Adafruit_CircuitPython_BLE
 """
+
 import struct
 from collections import namedtuple
 
 import _bleio
-from adafruit_ble.services import Service
-from adafruit_ble.uuid import StandardUUID
 from adafruit_ble.characteristics import Characteristic, ComplexCharacteristic
 from adafruit_ble.characteristics.int import Uint8Characteristic
+from adafruit_ble.services import Service
+from adafruit_ble.uuid import StandardUUID
 
 try:
     from typing import Optional
@@ -137,11 +138,8 @@ class HeartRateService(Service):
 
         Return ``None`` if no packet has been read yet.
         """
-        # pylint: disable=no-member
         if self._measurement_buf is None:
-            self._measurement_buf = bytearray(
-                self.heart_rate_measurement.incoming_packet_length
-            )
+            self._measurement_buf = bytearray(self.heart_rate_measurement.incoming_packet_length)
         buf = self._measurement_buf
         packet_length = self.heart_rate_measurement.readinto(buf)
         # pylint: enable=no-member
